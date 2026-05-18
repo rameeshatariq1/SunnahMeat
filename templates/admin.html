@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — Sunnah Meat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --gold:        #C9A84C;
+            --gold-light:  #E8C96A;
+            --gold-dim:    rgba(201,168,76,0.13);
+            --bg:          #0A0F0A;
+            --bg-card:     #111812;
+            --bg-row:      #141A14;
+            --bg-row-alt:  #0E1310;
+            --emerald:     #1A3A2A;
+            --text:        #E8E0D0;
+            --text-muted:  #7A7060;
+            --danger:      #C0392B;
+            --danger-dim:  rgba(192,57,43,0.15);
+            --delivered:   rgba(39,174,96,0.08);
+            --delivered-border: rgba(39,174,96,0.3);
+            --border:      rgba(201,168,76,0.2);
+        }
+
+        body { font-family: 'Lato', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+        .layout { display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: 240px; flex-shrink: 0;
+            background: var(--bg-card); border-right: 1px solid var(--border);
+            padding: 2rem 1.4rem; display: flex; flex-direction: column; gap: 2rem;
+            position: sticky; top: 0; height: 100vh; overflow-y: auto;
+        }
+        .sidebar-logo { display: flex; flex-direction: column; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); gap: 0.2rem; }
+        .logo-ar   { font-size: 2.2rem; color: var(--gold); line-height: 1; }
+        .logo-name { font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.2em; color: var(--gold); }
+        .logo-sub  { font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.15em; }
+        .sidebar-nav { display: flex; flex-direction: column; gap: 0.4rem; }
+        .nav-item {
+            display: flex; align-items: center; gap: 0.7rem;
+            padding: 0.7rem 1rem; border-radius: 5px; color: var(--text-muted);
+            text-decoration: none; font-size: 0.82rem; letter-spacing: 0.04em;
+            transition: all 0.2s; border: 1px solid transparent;
+        }
+        .nav-item.active, .nav-item:hover { color: var(--gold); background: var(--gold-dim); border-color: var(--border); }
+        .sidebar-footer { margin-top: auto; font-size: 0.68rem; color: var(--text-muted); text-align: center; padding-top: 1rem; border-top: 1px solid var(--border); line-height: 1.6; }
+
+        .main { flex: 1; padding: clamp(1.2rem, 3vw, 2.5rem); overflow-x: auto; min-width: 0; }
+
+        .page-header {
+            display: flex; align-items: flex-end; justify-content: space-between;
+            flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;
+            padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);
+        }
+        .page-header h1 { font-family: 'Cinzel', serif; font-size: clamp(1.2rem, 3vw, 1.6rem); color: var(--gold); font-weight: 400; }
+        .page-header p  { color: var(--text-muted); font-size: 0.82rem; margin-top: 0.3rem; }
+
+        .btn-export {
+            padding: 0.6rem 1.3rem; background: transparent; border: 1px solid var(--gold);
+            color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.7rem;
+            letter-spacing: 0.1em; cursor: pointer; border-radius: 3px; transition: all 0.2s; white-space: nowrap;
+        }
+        .btn-export:hover { background: var(--gold-dim); }
+
+        .stats-row {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 1rem; margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 1.2rem 1.4rem; position: relative; overflow: hidden;
+        }
+        .stat-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .stat-card-num   { font-family: 'Cinzel', serif; font-size: clamp(1.6rem, 4vw, 2rem); color: var(--gold); line-height: 1; }
+        .stat-card-label { font-size: 0.68rem; color: var(--text-muted); letter-spacing: 0.08em; margin-top: 0.35rem; text-transform: uppercase; }
+        .stat-card-icon  { position: absolute; top: 0.9rem; right: 1rem; font-size: 1.4rem; opacity: 0.25; }
+
+        /* Payments table styles */
+        .table-wrapper { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; overflow-x: auto; }
+        .bookings-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        .bookings-table thead tr { background: var(--emerald); border-bottom: 1px solid var(--border); }
+        .bookings-table th { padding: 0.9rem 1rem; font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--gold); font-weight: 400; text-align: left; white-space: nowrap; }
+        .bookings-table tbody tr { border-bottom: 1px solid rgba(201,168,76,0.07); transition: background 0.15s; }
+        .bookings-table tbody tr:nth-child(odd)  { background: var(--bg-row); }
+        .bookings-table tbody tr:nth-child(even) { background: var(--bg-row-alt); }
+        .bookings-table tbody tr:hover { background: var(--gold-dim); }
+        .bookings-table td { padding: 0.85rem 1rem; font-size: 0.82rem; white-space: nowrap; }
+        .td-id { color: var(--text-muted); font-size: 0.72rem; }
+
+        .payment-badge { display: inline-block; padding: 0.18rem 0.65rem; background: rgba(45,106,79,0.18); border: 1px solid rgba(45,106,79,0.35); border-radius: 3px; font-size: 0.72rem; color: #6FCF97; }
+
+        .status-badge { display: inline-block; padding: 0.22rem 0.75rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+        .status-badge.pending   { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.4); color: var(--gold); }
+        .status-badge.delivered { background: rgba(39,174,96,0.15); border: 1px solid var(--delivered-border); color: #6FCF97; }
+
+        .btn-deliver { padding: 0.38rem 0.9rem; background: rgba(39,174,96,0.12); border: 1px solid rgba(39,174,96,0.35); color: #6FCF97; font-size: 0.72rem; border-radius: 4px; cursor: pointer; text-decoration: none; transition: all 0.2s; white-space: nowrap; display: inline-block; }
+        .btn-deliver:hover { background: rgba(39,174,96,0.25); border-color: #6FCF97; }
+        .btn-delete { padding: 0.38rem 0.9rem; background: var(--danger-dim); border: 1px solid rgba(192,57,43,0.35); color: #E57373; font-size: 0.72rem; border-radius: 4px; cursor: pointer; text-decoration: none; transition: all 0.2s; white-space: nowrap; display: inline-block; }
+        .btn-delete:hover { background: rgba(192,57,43,0.28); border-color: var(--danger); color: #fff; }
+
+        .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+        .empty-icon  { font-size: 3rem; margin-bottom: 1rem; opacity: 0.35; }
+        .empty-state h3 { font-family: 'Cinzel', serif; color: var(--text-muted); font-weight: 400; margin-bottom: 0.4rem; font-size: 1rem; }
+
+        @media (max-width: 768px) {
+            .layout { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: static; flex-direction: row; flex-wrap: wrap; padding: 1rem; gap: 1rem; }
+            .sidebar-logo { flex-direction: row; gap: 0.5rem; padding-bottom: 0; border-bottom: none; border-right: 1px solid var(--border); padding-right: 1rem; }
+            .sidebar-nav  { flex-direction: row; }
+            .sidebar-footer { display: none; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 900px) {
+            .stats-row { grid-template-columns: repeat(4, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <span class="logo-ar">سنة</span>
+            <div>
+                <div class="logo-name">SUNNAH MEAT</div>
+                <div class="logo-sub">ADMIN PANEL</div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/admin" class="nav-item active">📋 All Bookings</a>
+            <a href="/"      class="nav-item">🏠 View Website</a>
+            <a href="/admin/logout" class="nav-item" style="margin-top:auto;color:#E57373;border-color:rgba(192,57,43,0.3);"
+               onclick="return confirm('Logout karna chahte ho?')">🚪 Logout</a>
+        </nav>
+        <div class="sidebar-footer">Sunnah Meat © 2025<br>Admin v3.0</div>
+    </aside>
+
+    <main class="main">
+
+        <!-- PAGE HEADER -->
+        <div class="page-header">
+            <div>
+                <h1>Booking Management</h1>
+                <p>Manage all Qurbani orders — mark delivered or remove</p>
+            </div>
+            <button class="btn-export" onclick="window.print()">🖨 Print / Export</button>
+        </div>
+
+        <!-- STAT CARDS (رہیں گے) -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-card-icon">📋</div>
+                <div class="stat-card-num">{{ bookings|length }}</div>
+                <div class="stat-card-label">Total Bookings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon">⏳</div>
+                <div class="stat-card-num">
+                    {% set p = namespace(v=0) %}
+                    {% for b in bookings %}{% if b[7] == 'Pending' or b[7] == None %}{% set p.v = p.v + 1 %}{% endif %}{% endfor %}
+                    {{ p.v }}
+                </div>
+                <div class="stat-card-label">Pending</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon">✅</div>
+                <div class="stat-card-num">
+                    {% set d = namespace(v=0) %}
+                    {% for b in bookings %}{% if b[7] == 'Delivered' %}{% set d.v = d.v + 1 %}{% endif %}{% endfor %}
+                    {{ d.v }}
+                </div>
+                <div class="stat-card-label">Delivered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon">🐄</div>
+                <div class="stat-card-num">
+                    {% set c = namespace(v=0) %}
+                    {% for b in bookings %}{% if b[4] == 'Cow' %}{% set c.v = c.v + 1 %}{% endif %}{% endfor %}
+                    {{ c.v }}
+                </div>
+                <div class="stat-card-label">Cow Orders</div>
+            </div>
+        </div>
+
+        <!-- ===== PAYMENTS SECTION ===== -->
+        <div id="payments">
+            <div class="page-header" style="margin-bottom:1.2rem">
+                <div>
+                    <h1 style="font-size:1.2rem">
+                        💳 Payment Verifications
+                        {% if pending_payments > 0 %}
+                        <span style="background:#C0392B;color:#fff;font-size:.65rem;padding:.2rem .6rem;border-radius:20px;margin-left:.5rem;font-family:'Lato',sans-serif;letter-spacing:.08em;">
+                            {{ pending_payments }} PENDING
+                        </span>
+                        {% endif %}
+                    </h1>
+                    <p>Review screenshot uploads and verify or reject payments</p>
+                </div>
+            </div>
+
+            {% if payments %}
+            <div class="table-wrapper">
+                <table class="bookings-table" style="min-width:900px">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Customer</th>
+                            <th>Program</th>
+                            <th>Amount</th>
+                            <th>Method</th>
+                            <th>Screenshot</th>
+                            <th>Submitted</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for p in payments %}
+                    {% set is_expired = (p['expires_at'] < now.strftime('%Y-%m-%d %H:%M:%S')) and p['status'] == 'Pending' %}
+                    <tr style="{% if p['status'] == 'Verified' %}background:rgba(39,174,96,0.06)!important;{% elif p['status'] == 'Rejected' %}background:rgba(192,57,43,0.06)!important;opacity:.7;{% endif %}">
+                        <td class="td-id">#{{ p['id'] }}</td>
+                        <td>
+                            <strong>{{ p['customer_name'] }}</strong><br>
+                            <span style="font-size:.72rem;color:var(--text-muted)">{{ p['customer_phone'] }}</span>
+                        </td>
+                        <td style="font-size:.8rem;max-width:140px;white-space:normal">{{ p['program'] }}</td>
+                        <td>
+                            <span style="font-size:.95rem;font-weight:700;color:var(--gold)">
+                                {{ p['currency'] }} {{ p['amount'] }}
+                            </span>
+                        </td>
+                        <td><span class="payment-badge">{{ p['payment_method'] }}</span></td>
+                        <td>
+                            {% if p['screenshot_path'] %}
+                            <a href="/{{ p['screenshot_path'] }}" target="_blank"
+                               style="display:inline-flex;align-items:center;gap:.3rem;
+                                      padding:.3rem .7rem;background:rgba(201,168,76,.15);
+                                      border:1px solid var(--border);border-radius:4px;
+                                      font-size:.72rem;color:var(--gold);text-decoration:none;">
+                                📸 View
+                            </a>
+                            {% else %}—{% endif %}
+                        </td>
+                        <td style="font-size:.75rem">
+                            {{ p['submitted_at'][:16] }}
+                            {% if is_expired %}
+                            <br><span style="color:#E57373;font-size:.68rem">⏰ Expired</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if p['status'] == 'Verified' %}
+                            <span class="status-badge delivered">✅ Verified</span>
+                            {% elif p['status'] == 'Rejected' %}
+                            <span class="status-badge" style="background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.4);color:#E57373;border-radius:20px;padding:.22rem .75rem;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">❌ Rejected</span>
+                            {% elif is_expired %}
+                            <span class="status-badge pending">⏰ Expired</span>
+                            {% else %}
+                            <span class="status-badge pending">⏳ Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if p['status'] == 'Pending' %}
+                            <form action="/admin/verify-payment/{{ p['id'] }}" method="POST"
+                                  style="display:flex;flex-direction:column;gap:.4rem;min-width:160px">
+                                <input type="text" name="admin_note" placeholder="Note (optional)"
+                                       style="background:rgba(0,0,0,.2);border:1px solid var(--border);
+                                              color:var(--text);padding:.3rem .6rem;border-radius:3px;
+                                              font-size:.72rem;font-family:'Lato',sans-serif;outline:none">
+                                <div style="display:flex;gap:.4rem">
+                                    <button name="action" value="verify"
+                                            onclick="return confirm('Verify this payment?')"
+                                            class="btn-deliver" style="flex:1;text-align:center;border:none;cursor:pointer;font-family:'Lato',sans-serif;">
+                                        ✔ Verify
+                                    </button>
+                                    <button name="action" value="reject"
+                                            onclick="return confirm('Reject this payment?')"
+                                            class="btn-delete" style="flex:1;text-align:center;border:none;cursor:pointer;font-family:'Lato',sans-serif;">
+                                        ✘ Reject
+                                    </button>
+                                </div>
+                            </form>
+                            {% else %}
+                            <div style="display:flex;flex-direction:column;gap:.3rem">
+                                {% if p['admin_note'] %}
+                                <span style="font-size:.72rem;color:var(--text-muted);font-style:italic">"{{ p['admin_note'] }}"</span>
+                                {% endif %}
+                                <a href="/admin/delete-payment/{{ p['id'] }}" class="btn-delete"
+                                   onclick="return confirm('Delete this record?')"
+                                   style="text-align:center">Delete</a>
+                            </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="table-wrapper">
+                <div class="empty-state">
+                    <div class="empty-icon">💳</div>
+                    <h3>No payments yet</h3>
+                    <p>Customer payment screenshots will appear here for verification.</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

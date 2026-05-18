@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Status — Sunnah Meat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+    --green:#1B4332;--green-mid:#2D6A4F;
+    --gold:#C9943A;--gold-light:#E8B55A;
+    --cream:#FAF7F0;--text:#1A1A1A;--text-soft:#7A7060;
+    --border:rgba(27,67,50,0.15);
+    --pending:#C9943A;--verified:#27AE60;--rejected:#C0392B;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem}
+
+.topbar{position:fixed;top:0;left:0;right:0;background:var(--green);color:#FAF7F0;padding:.7rem 1.5rem;display:flex;align-items:center;justify-content:space-between;z-index:10}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700}
+.topbar a{color:var(--gold-light);font-size:.8rem}
+
+.card{
+    background:#fff;border-radius:14px;padding:clamp(1.8rem,5vw,3rem);
+    width:100%;max-width:520px;
+    box-shadow:0 20px 60px rgba(0,0,0,.12);
+    margin-top:4rem;text-align:center
+}
+
+/* Status icon */
+.status-icon{
+    width:80px;height:80px;border-radius:50%;margin:0 auto 1.2rem;
+    display:flex;align-items:center;justify-content:center;font-size:2.2rem
+}
+.icon-pending  { background:rgba(201,148,58,.12); }
+.icon-verified { background:rgba(39,174,96,.12);  }
+.icon-rejected { background:rgba(192,57,43,.12);  }
+
+.status-badge{
+    display:inline-block;padding:.35rem 1.2rem;border-radius:20px;
+    font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem
+}
+.badge-pending  { background:rgba(201,148,58,.15); color:var(--pending); border:1px solid rgba(201,148,58,.4); }
+.badge-verified { background:rgba(39,174,96,.12);  color:var(--verified);border:1px solid rgba(39,174,96,.35);}
+.badge-rejected { background:rgba(192,57,43,.1);   color:var(--rejected);border:1px solid rgba(192,57,43,.3);}
+
+.status-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--green);margin-bottom:.5rem}
+.status-msg{font-size:.88rem;color:var(--text-soft);line-height:1.7;margin-bottom:1.5rem}
+
+/* Timer */
+.timer-wrap{margin-bottom:1.5rem}
+.timer-label{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-soft);margin-bottom:.6rem}
+
+.timer-ring{position:relative;width:110px;height:110px;margin:0 auto .8rem}
+.timer-ring svg{transform:rotate(-90deg)}
+.timer-ring circle{fill:none;stroke-width:6}
+.ring-bg{stroke:rgba(27,67,50,.1)}
+.ring-fill{stroke:var(--gold);stroke-linecap:round;transition:stroke-dashoffset .9s linear}
+.ring-fill.urgent{stroke:#C0392B}
+
+.timer-text{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--green)
+}
+.timer-text.urgent{color:#C0392B}
+
+.timer-sub{font-size:.75rem;color:var(--text-soft)}
+
+/* Info rows */
+.info-grid{
+    background:var(--cream);border-radius:8px;padding:1.1rem 1.4rem;
+    margin-bottom:1.2rem;text-align:left;display:grid;grid-template-columns:1fr 1fr;gap:.7rem
+}
+.info-item .lbl{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-soft);margin-bottom:.2rem}
+.info-item .val{font-size:.86rem;font-weight:600;color:var(--green)}
+
+/* Admin note */
+.admin-note{
+    background:rgba(39,174,96,.08);border:1px solid rgba(39,174,96,.25);
+    border-radius:6px;padding:.9rem 1.1rem;font-size:.82rem;
+    color:#155724;line-height:1.6;margin-bottom:1.2rem;text-align:left;display:none
+}
+.admin-note.rejected-note{background:rgba(192,57,43,.07);border-color:rgba(192,57,43,.25);color:#7B241C}
+
+/* Expired message */
+.expired-box{
+    background:rgba(201,148,58,.1);border:1px solid rgba(201,148,58,.35);
+    border-radius:8px;padding:1.1rem;margin-bottom:1.2rem;
+    font-size:.84rem;color:#7a4e00;line-height:1.6
+}
+
+.btn{
+    display:block;width:100%;padding:.85rem;border-radius:6px;
+    font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;
+    cursor:pointer;text-decoration:none;text-align:center;transition:all .2s;border:none;margin-bottom:.7rem
+}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:var(--green-mid)}
+.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text-soft)}
+.btn-outline:hover{border-color:var(--green);color:var(--green)}
+
+.ref-id{font-size:.75rem;color:var(--text-soft);margin-top:.5rem}
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <span class="topbar-brand">🐄 Sunnah Meat</span>
+    <a href="/">← Back to Website</a>
+</div>
+
+<div class="card" id="statusCard">
+
+    <!-- STATUS ICON — changes dynamically -->
+    <div class="status-icon icon-pending" id="statusIcon">⏳</div>
+
+    <div class="status-badge badge-pending" id="statusBadge">{{ payment['status'] }}</div>
+
+    <h2 class="status-title" id="statusTitle">
+        {% if payment['status'] == 'Verified' %}Payment Verified!
+        {% elif payment['status'] == 'Rejected' %}Payment Rejected
+        {% else %}Awaiting Verification{% endif %}
+    </h2>
+
+    <p class="status-msg" id="statusMsg">
+        {% if payment['status'] == 'Verified' %}
+            JazakAllah Khair! Your payment has been verified. Your program registration is now confirmed.
+        {% elif payment['status'] == 'Rejected' %}
+            Unfortunately your payment could not be verified. Please contact us for assistance.
+        {% else %}
+            Your screenshot has been received. Our admin is reviewing it. Please wait while we verify your payment.
+        {% endif %}
+    </p>
+
+    <!-- TIMER (only show if pending and not expired) -->
+    {% if payment['status'] == 'Pending' %}
+    <div class="timer-wrap" id="timerWrap">
+        <div class="timer-label">Verification Window</div>
+        <div class="timer-ring">
+            <svg width="110" height="110" viewBox="0 0 110 110">
+                <circle class="ring-bg" cx="55" cy="55" r="48"/>
+                <circle class="ring-fill" id="ringFill" cx="55" cy="55" r="48"
+                        stroke-dasharray="301.59" stroke-dashoffset="0"/>
+            </svg>
+            <div class="timer-text" id="timerText">10:00</div>
+        </div>
+        <div class="timer-sub" id="timerSub">Admin will verify within this time</div>
+    </div>
+
+    <!-- Expired message (hidden initially) -->
+    <div class="expired-box" id="expiredBox" style="display:none">
+        🕐 <strong>Verification window has passed.</strong><br>
+        Your payment is still <strong>Pending</strong> — our admin will review it shortly.<br>
+        Please <strong>check back later</strong> or contact us on WhatsApp for a quick update. We appreciate your patience! 🤝
+    </div>
+    {% endif %}
+
+    <!-- Admin note (shown when verified/rejected) -->
+    <div class="admin-note" id="adminNote">
+        <strong>Admin Note:</strong> <span id="adminNoteText"></span>
+    </div>
+
+    <!-- Payment info -->
+    <div class="info-grid">
+        <div class="info-item">
+            <div class="lbl">Program</div>
+            <div class="val">{{ payment['program'] }}</div>
+        </div>
+        <div class="info-item">
+            <div class="lbl">Amount</div>
+            <div class="val">{{ payment['currency'] }} {{ payment['amount'] }}</div>
+        </div>
+        <div class="info-item">
+            <div class="lbl">Method</div>
+            <div class="val">{{ payment['payment_method'] }}</div>
+        </div>
+        <div class="info-item">
+            <div class="lbl">Submitted</div>
+            <div class="val">{{ payment['submitted_at'][:16] }}</div>
+        </div>
+    </div>
+
+    <a href="/" class="btn btn-green">← Back to Website</a>
+    <a href="/payment?program={{ payment['program'] }}&amount={{ payment['amount'] }}&currency={{ payment['currency'] }}" class="btn btn-outline">Submit Another Payment</a>
+
+    <div class="ref-id">Reference ID: #{{ payment['id'] }} — Screenshot submitted ✓</div>
+</div>
+
+<script>
+const paymentId   = {{ payment['id'] }};
+const expiresAt   = "{{ payment['expires_at'] }}";
+const totalSecs   = 10 * 60;  // 600 seconds
+const initialStatus = "{{ payment['status'] }}";
+
+// ── TIMER ──
+function updateTimer() {
+    const now      = new Date();
+    const expires  = new Date(expiresAt.replace(' ', 'T'));
+    const secsLeft = Math.max(0, Math.floor((expires - now) / 1000));
+
+    const mins = String(Math.floor(secsLeft / 60)).padStart(2, '0');
+    const secs = String(secsLeft % 60).padStart(2, '0');
+
+    const timerText = document.getElementById('timerText');
+    const ringFill  = document.getElementById('ringFill');
+    const timerSub  = document.getElementById('timerSub');
+    const expBox    = document.getElementById('expiredBox');
+    const timerWrap = document.getElementById('timerWrap');
+
+    if (!timerText) return;
+
+    if (secsLeft <= 0) {
+        timerText.textContent = '0:00';
+        timerText.classList.add('urgent');
+        ringFill.style.strokeDashoffset = 301.59;
+        if (timerWrap) timerWrap.style.display = 'none';
+        if (expBox)    expBox.style.display = 'block';
+        return;
+    }
+
+    timerText.textContent = `${mins}:${secs}`;
+
+    // Ring progress
+    const progress  = secsLeft / totalSecs;
+    const offset    = 301.59 * (1 - progress);
+    ringFill.style.strokeDashoffset = offset;
+
+    if (secsLeft <= 60) {
+        timerText.classList.add('urgent');
+        ringFill.classList.add('urgent');
+        timerSub.textContent = '⚠️ Less than a minute remaining!';
+    }
+
+    setTimeout(updateTimer, 1000);
+}
+
+// ── LIVE STATUS POLLING ──
+function updateStatusUI(data) {
+    const icon  = document.getElementById('statusIcon');
+    const badge = document.getElementById('statusBadge');
+    const title = document.getElementById('statusTitle');
+    const msg   = document.getElementById('statusMsg');
+    const note  = document.getElementById('adminNote');
+    const noteT = document.getElementById('adminNoteText');
+    const wrap  = document.getElementById('timerWrap');
+    const expBox= document.getElementById('expiredBox');
+
+    if (data.status === 'Verified') {
+        icon.className  = 'status-icon icon-verified';
+        icon.textContent = '✅';
+        badge.className = 'status-badge badge-verified';
+        badge.textContent = 'Verified';
+        title.textContent = 'Payment Verified! 🎉';
+        msg.textContent   = 'JazakAllah Khair! Your payment has been verified. Your program registration is now confirmed.';
+        if (wrap)   wrap.style.display   = 'none';
+        if (expBox) expBox.style.display = 'none';
+        if (data.admin_note) {
+            note.style.display = 'block';
+            noteT.textContent  = data.admin_note;
+        }
+    } else if (data.status === 'Rejected') {
+        icon.className  = 'status-icon icon-rejected';
+        icon.textContent = '❌';
+        badge.className = 'status-badge badge-rejected';
+        badge.textContent = 'Rejected';
+        title.textContent = 'Payment Rejected';
+        msg.textContent   = 'Unfortunately your payment could not be verified. Please contact us for assistance.';
+        if (wrap)   wrap.style.display   = 'none';
+        if (expBox) expBox.style.display = 'none';
+        if (data.admin_note) {
+            note.style.display = 'block';
+            note.classList.add('rejected-note');
+            noteT.textContent  = data.admin_note;
+        }
+    }
+}
+
+function pollStatus() {
+    fetch(`/api/payment-status/${paymentId}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.status !== 'Pending') {
+                updateStatusUI(data);
+            } else {
+                // Poll every 8 seconds while pending
+                setTimeout(pollStatus, 8000);
+            }
+        })
+        .catch(() => setTimeout(pollStatus, 10000));
+}
+
+// Start
+if (initialStatus === 'Pending') {
+    updateTimer();
+    setTimeout(pollStatus, 5000);
+} else {
+    updateStatusUI({ status: initialStatus, admin_note: "{{ payment['admin_note'] or '' }}" });
+}
+</script>
+</body>
+</html>

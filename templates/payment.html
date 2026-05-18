@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Payment — Sunnah Meat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+    --green:#1B4332;--green-mid:#2D6A4F;
+    --gold:#C9943A;--gold-light:#E8B55A;
+    --cream:#FAF7F0;--cream-dark:#F0EBE0;
+    --text:#1A1A1A;--text-mid:#4A4A4A;--text-soft:#7A7060;
+    --white:#fff;--border:rgba(27,67,50,0.15);
+    --jazzcash:#8B1538;--easypaisa:#00A651;--stripe:#635BFF;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+
+/* NAV */
+.topbar{background:var(--green);color:var(--cream);padding:.7rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700}
+.topbar a{color:var(--gold-light);font-size:.8rem}
+
+/* LAYOUT */
+.page{max-width:1000px;margin:0 auto;padding:clamp(1.5rem,4vw,3rem) clamp(1rem,3vw,2rem)}
+
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4vw,2.2rem);color:var(--green);margin-bottom:.4rem}
+.page-sub{font-size:.88rem;color:var(--text-soft);margin-bottom:2rem}
+
+/* ORDER SUMMARY */
+.order-summary{
+    background:var(--green);color:var(--cream);
+    border-radius:10px;padding:1.4rem 1.8rem;
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:1rem;margin-bottom:2rem
+}
+.order-summary .prog{font-family:'Playfair Display',serif;font-size:1.1rem}
+.order-summary .amt{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-light);font-weight:700}
+.order-summary .amt span{font-size:.85rem;font-weight:400;color:rgba(250,247,240,.6)}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+
+/* PAYMENT METHOD CARDS */
+.method-card{
+    border:2px solid var(--border);border-radius:10px;
+    overflow:hidden;transition:border-color .2s,box-shadow .2s;cursor:pointer
+}
+.method-card.selected{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,148,58,.15)}
+
+.method-header{
+    padding:1rem 1.4rem;display:flex;align-items:center;gap:.8rem;
+    font-weight:600;font-size:.92rem
+}
+.method-logo{
+    width:38px;height:38px;border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;font-weight:800;color:#fff;flex-shrink:0
+}
+.jc-logo{background:var(--jazzcash)}
+.ep-logo{background:var(--easypaisa)}
+.st-logo{background:var(--stripe)}
+.pp-logo{background:#003087}
+
+.method-body{padding:1rem 1.4rem;background:var(--cream-dark)}
+
+.account-row{
+    display:flex;align-items:center;justify-content:space-between;
+    background:#fff;border:1px solid var(--border);
+    border-radius:6px;padding:.6rem 1rem;margin-bottom:.6rem
+}
+.account-label{font-size:.7rem;color:var(--text-soft);letter-spacing:.06em;text-transform:uppercase}
+.account-num{font-size:.92rem;font-weight:600;color:var(--green);font-family:monospace;letter-spacing:.05em}
+.copy-btn{
+    padding:.3rem .7rem;background:var(--green);color:#fff;
+    border:none;border-radius:4px;font-size:.7rem;cursor:pointer;
+    transition:background .2s;white-space:nowrap
+}
+.copy-btn:hover{background:var(--green-mid)}
+.copy-btn.copied{background:var(--gold)}
+
+.method-note{font-size:.76rem;color:var(--text-soft);line-height:1.5;margin-top:.5rem}
+
+/* UPLOAD FORM */
+.upload-section{
+    background:#fff;border:1px solid var(--border);border-radius:10px;
+    padding:2rem;grid-column:1/-1
+}
+.upload-section h3{font-family:'Playfair Display',serif;color:var(--green);font-size:1.1rem;margin-bottom:1.2rem}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.fg{display:flex;flex-direction:column;gap:.4rem}
+.fg.full{grid-column:1/-1}
+.fg label{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);font-weight:600}
+.fg input,.fg select{
+    border:1.5px solid var(--border);background:var(--cream);
+    padding:.78rem 1rem;font-size:.9rem;font-family:'DM Sans',sans-serif;
+    border-radius:5px;color:var(--text);outline:none;transition:border-color .2s
+}
+.fg input:focus,.fg select:focus{border-color:var(--green);background:#fff}
+
+/* File upload zone */
+.file-zone{
+    border:2px dashed var(--border);border-radius:8px;
+    padding:2rem;text-align:center;cursor:pointer;transition:all .2s;
+    background:var(--cream);position:relative
+}
+.file-zone:hover,.file-zone.dragover{border-color:var(--gold);background:rgba(201,148,58,.05)}
+.file-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.file-icon{font-size:2.5rem;margin-bottom:.6rem}
+.file-zone h4{font-size:.9rem;color:var(--green);margin-bottom:.3rem}
+.file-zone p{font-size:.75rem;color:var(--text-soft)}
+.file-preview{display:none;margin-top:1rem}
+.file-preview img{max-height:150px;border-radius:6px;margin:0 auto;border:1px solid var(--border)}
+.file-name{font-size:.78rem;color:var(--green);margin-top:.4rem;font-weight:500}
+
+.submit-btn{
+    width:100%;padding:1rem;background:var(--green);color:#fff;border:none;
+    border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;
+    cursor:pointer;transition:all .25s;margin-top:1.2rem;letter-spacing:.05em;
+    display:flex;align-items:center;justify-content:center;gap:.6rem
+}
+.submit-btn:hover{background:var(--green-mid);transform:translateY(-1px)}
+
+.warning-box{
+    background:rgba(201,148,58,.1);border:1px solid rgba(201,148,58,.4);
+    border-radius:6px;padding:.9rem 1.1rem;
+    font-size:.8rem;color:#7a4e00;line-height:1.6;margin-bottom:1.2rem
+}
+
+/* RESPONSIVE */
+@media(max-width:680px){
+    .grid{grid-template-columns:1fr}
+    .form-grid{grid-template-columns:1fr}
+}
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <span class="topbar-brand">Sunnah Meat — Secure Payment</span>
+    <a href="/">← Back to Website</a>
+</div>
+
+<div class="page">
+    <h1 class="page-title">Complete Your Payment</h1>
+    <p class="page-sub">Transfer the amount using any method below, then upload your payment screenshot for verification.</p>
+
+    <!-- ORDER SUMMARY -->
+    <div class="order-summary">
+        <div>
+            <div style="font-size:.7rem;letter-spacing:.12em;opacity:.6;text-transform:uppercase;margin-bottom:.2rem">Program</div>
+            <div class="prog">{{ program }}</div>
+        </div>
+        <div style="text-align:right">
+            <div style="font-size:.7rem;letter-spacing:.12em;opacity:.6;text-transform:uppercase;margin-bottom:.2rem">Amount Due</div>
+            <div class="amt">{{ currency }} {{ amount }} <span>/ one-time</span></div>
+        </div>
+    </div>
+
+    <!-- PAYMENT METHODS -->
+    <div class="grid" id="methodsGrid">
+
+        <!-- JazzCash -->
+        <div class="method-card selected" id="card-jazzcash" onclick="selectMethod('jazzcash')">
+            <div class="method-header" style="background:#fdf0f3">
+                <div class="method-logo jc-logo">J</div>
+                <div>
+                    <div>JazzCash</div>
+                    <div style="font-size:.7rem;color:var(--text-soft);font-weight:400">Mobile Wallet</div>
+                </div>
+            </div>
+            <div class="method-body">
+                <div class="account-row">
+                    <div>
+                        <div class="account-label">Account Number</div>
+                        <div class="account-num" id="jc-num">0300-1234567</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyNum(event,'0300-1234567',this)">Copy</button>
+                </div>
+                <div class="account-row">
+                    <div>
+                        <div class="account-label">Account Name</div>
+                        <div class="account-num">Sunnah Meat Pvt.</div>
+                    </div>
+                </div>
+                <p class="method-note">Open JazzCash app → Send Money → Enter number → Enter amount → Screenshot the confirmation</p>
+            </div>
+        </div>
+
+        <!-- Easypaisa -->
+        <div class="method-card" id="card-easypaisa" onclick="selectMethod('easypaisa')">
+            <div class="method-header" style="background:#f0faf4">
+                <div class="method-logo ep-logo">E</div>
+                <div>
+                    <div>Easypaisa</div>
+                    <div style="font-size:.7rem;color:var(--text-soft);font-weight:400">Mobile Wallet</div>
+                </div>
+            </div>
+            <div class="method-body">
+                <div class="account-row">
+                    <div>
+                        <div class="account-label">Account Number</div>
+                        <div class="account-num" id="ep-num">0345-9876543</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyNum(event,'0345-9876543',this)">Copy</button>
+                </div>
+                <div class="account-row">
+                    <div>
+                        <div class="account-label">Account Name</div>
+                        <div class="account-num">Sunnah Meat Pvt.</div>
+                    </div>
+                </div>
+                <p class="method-note">Open Easypaisa app → Send Money → Enter number → Pay → Screenshot the confirmation</p>
+            </div>
+        </div>
+
+        <!-- Stripe (Bank Card) -->
+        <div class="method-card" id="card-stripe" onclick="selectMethod('stripe')">
+            <div class="method-header" style="background:#f4f3ff">
+                <div class="method-logo st-logo">S</div>
+                <div>
+                    <div>Bank Transfer / Card</div>
+                    <div style="font-size:.7rem;color:var(--text-soft);font-weight:400">International</div>
+                </div>
+            </div>
+            <div class="method-body">
+                <div class="account-row">
+                    <div>
+                        <div class="account-label">IBAN</div>
+                        <div class="account-num" id="st-num" style="font-size:.78rem">PK36HABB0000123456789101</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyNum(event,'PK36HABB0000123456789101',this)">Copy</button>
+                </div>
+                <div class="account-row">
+                    <div>
+                        <div class="account-label">Bank Name</div>
+                        <div class="account-num">HBL — Habib Bank</div>
+                    </div>
+                </div>
+                <p class="method-note">International wire transfer or card payment. Use IBAN above. Screenshot your bank receipt.</p>
+            </div>
+        </div>
+
+        <!-- PayPal -->
+        <div class="method-card" id="card-paypal" onclick="selectMethod('paypal')">
+            <div class="method-header" style="background:#f0f4ff">
+                <div class="method-logo pp-logo">P</div>
+                <div>
+                    <div>PayPal</div>
+                    <div style="font-size:.7rem;color:var(--text-soft);font-weight:400">International</div>
+                </div>
+            </div>
+            <div class="method-body">
+                <div class="account-row">
+                    <div>
+                        <div class="account-label">PayPal Email</div>
+                        <div class="account-num" id="pp-email" style="font-size:.82rem">donate@sunnahmeat.org</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyNum(event,'donate@sunnahmeat.org',this)">Copy</button>
+                </div>
+                <p class="method-note">Send via PayPal to the email above. Select "Friends & Family" to avoid fees. Screenshot confirmation page.</p>
+            </div>
+        </div>
+
+    </div><!-- end grid -->
+
+    <!-- UPLOAD FORM -->
+    <div class="upload-section" style="margin-top:1.5rem">
+        <h3>Upload Payment Screenshot</h3>
+
+        <div class="warning-box">
+            ⏱ <strong>Important:</strong> After submitting your screenshot, you have <strong>10 minutes</strong> for admin verification. Please ensure your screenshot clearly shows the transaction ID, amount, and date.
+        </div>
+
+        <form action="/submit-payment" method="POST" enctype="multipart/form-data" id="paymentForm">
+            <input type="hidden" name="program" value="{{ program }}">
+            <input type="hidden" name="amount" value="{{ amount }}">
+            <input type="hidden" name="currency" value="{{ currency }}">
+            <input type="hidden" name="payment_method" id="selectedMethod" value="JazzCash">
+
+            <div class="form-grid">
+                <div class="fg">
+                    <label>Your Full Name *</label>
+                    <input type="text" name="customer_name" placeholder="Muhammad Ali" required>
+                </div>
+                <div class="fg">
+                    <label>Phone / WhatsApp *</label>
+                    <input type="tel" name="customer_phone" placeholder="03XX-XXXXXXX" required>
+                </div>
+                <div class="fg">
+                    <label>Email (optional)</label>
+                    <input type="email" name="customer_email" placeholder="you@email.com">
+                </div>
+                <div class="fg">
+                    <label>Transaction Reference / ID</label>
+                    <input type="text" name="transaction_ref" placeholder="e.g. TXN123456789">
+                </div>
+            </div>
+
+            <!-- File upload zone -->
+            <div class="fg full">
+                <label>Payment Screenshot *</label>
+                <div class="file-zone" id="fileZone">
+                    <input type="file" name="screenshot" id="screenshotInput"
+                           accept="image/*" required onchange="previewFile(this)">
+                    <div class="file-icon">📸</div>
+                    <h4>Click or drag screenshot here</h4>
+                    <p>PNG, JPG, JPEG — max 5MB</p>
+                    <div class="file-preview" id="filePreview">
+                        <img id="previewImg" src="" alt="Preview">
+                        <div class="file-name" id="fileName"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span>Submit Payment for Verification</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+let selectedMethod = 'JazzCash';
+
+function selectMethod(method) {
+    document.querySelectorAll('.method-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('card-' + method).classList.add('selected');
+    const names = {
+        'jazzcash':'JazzCash','easypaisa':'Easypaisa',
+        'stripe':'Bank Transfer','paypal':'PayPal'
+    };
+    selectedMethod = names[method];
+    document.getElementById('selectedMethod').value = selectedMethod;
+}
+
+function copyNum(e, text, btn) {
+    e.stopPropagation();
+    navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+}
+
+function previewFile(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        document.getElementById('previewImg').src = e.target.result;
+        document.getElementById('fileName').textContent = file.name;
+        document.getElementById('filePreview').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+}
+
+// Drag & drop
+const zone = document.getElementById('fileZone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+        document.getElementById('screenshotInput').files = e.dataTransfer.files;
+        previewFile({ files: [file] });
+    }
+});
+
+// Pre-fill name/phone if coming from program form
+const smName  = sessionStorage.getItem('sm_name');
+const smPhone = sessionStorage.getItem('sm_phone');
+if(smName)  document.querySelector('input[name="customer_name"]').value  = smName;
+if(smPhone) document.querySelector('input[name="customer_phone"]').value = smPhone;
+
+// Submit loading state
+document.getElementById('paymentForm').addEventListener('submit', () => {
+    const btn = document.getElementById('submitBtn');
+    btn.innerHTML = '<span>⏳ Submitting...</span>';
+    btn.disabled = true;
+});
+</script>
+</body>
+</html>

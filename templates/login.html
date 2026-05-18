@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login — Sunnah Meat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --green:      #1B4332;
+            --green-mid:  #2D6A4F;
+            --gold:       #C9943A;
+            --gold-light: #E8B55A;
+            --cream:      #FAF7F0;
+            --text:       #1A1A1A;
+            --text-soft:  #7A7060;
+            --border:     rgba(27,67,50,0.15);
+            --error:      #c0392b;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--green);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* background pattern */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(201,148,58,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(201,148,58,0.06) 0%, transparent 50%);
+        }
+
+        /* decorative Arabic text bg */
+        body::after {
+            content: 'بِسْمِ اللَّه';
+            position: absolute;
+            font-size: 18rem;
+            color: rgba(255,255,255,0.02);
+            font-family: 'DM Sans', serif;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .login-box {
+            position: relative;
+            z-index: 1;
+            background: var(--cream);
+            border-radius: 12px;
+            padding: clamp(2rem, 5vw, 3rem);
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+
+        /* top gold bar */
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+            border-radius: 12px 12px 0 0;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo {
+            width: 60px; height: 60px;
+            background: var(--green);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1rem;
+        }
+
+        .login-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--green);
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .login-header p {
+            font-size: 0.78rem;
+            color: var(--text-soft);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.8rem;
+        }
+        .divider-line { flex: 1; height: 1px; background: var(--border); }
+        .divider-text { font-size: 0.65rem; letter-spacing: 0.15em; color: var(--text-soft); text-transform: uppercase; }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            font-size: 0.65rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            opacity: 0.5;
+        }
+
+        .form-group input {
+            width: 100%;
+            border: 1.5px solid var(--border);
+            background: #fff;
+            padding: 0.82rem 1rem 0.82rem 2.8rem;
+            font-size: 0.95rem;
+            font-family: 'DM Sans', sans-serif;
+            border-radius: 6px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(27,67,50,0.08);
+        }
+
+        /* error message */
+        .error-msg {
+            background: rgba(192,57,43,0.08);
+            border: 1px solid rgba(192,57,43,0.3);
+            color: var(--error);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.95rem;
+            background: var(--green);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-top: 0.4rem;
+        }
+
+        .login-btn:hover {
+            background: var(--green-mid);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(27,67,50,0.25);
+        }
+
+        .login-btn:active { transform: scale(0.98); }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.72rem;
+            color: var(--text-soft);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--green);
+            text-decoration: none;
+            font-size: 0.78rem;
+            margin-top: 0.5rem;
+            transition: opacity 0.2s;
+        }
+        .back-link:hover { opacity: 0.7; }
+
+        /* shake animation on error */
+        @keyframes shake {
+            0%,100%{transform:translateX(0)}
+            20%{transform:translateX(-8px)}
+            40%{transform:translateX(8px)}
+            60%{transform:translateX(-5px)}
+            80%{transform:translateX(5px)}
+        }
+        .shake { animation: shake 0.4s ease; }
+    </style>
+</head>
+<body>
+
+<div class="login-box{% if error %} shake{% endif %}" id="loginBox">
+
+    <div class="login-header">
+        <div class="login-logo">🐄</div>
+        <h1>Sunnah Meat</h1>
+        <p>Admin Panel — Secure Login</p>
+    </div>
+
+    <div class="divider">
+        <span class="divider-line"></span>
+        <span class="divider-text">Enter Credentials</span>
+        <span class="divider-line"></span>
+    </div>
+
+    {% if error %}
+    <div class="error-msg" id="errorMsg">
+        ⚠️ {{ error }}
+    </div>
+    {% endif %}
+
+    <form action="/admin/login" method="POST" id="loginForm">
+
+        <div class="form-group">
+            <label>Username</label>
+            <div class="input-wrap">
+                <span class="input-icon"></span>
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter admin username"
+                    autocomplete="username"
+                    required
+                    autofocus>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <div class="input-wrap">
+                <span class="input-icon"></span>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter admin password"
+                    autocomplete="current-password"
+                    required>
+            </div>
+        </div>
+
+        <button type="submit" class="login-btn">Login to Dashboard →</button>
+    </form>
+
+    <div class="login-footer">
+        <p>Only authorized personnel can access this panel.</p>
+        <a href="/" class="back-link">← Back to Website</a>
+    </div>
+
+</div>
+
+<script>
+    // shake box if error
+    {% if error %}
+    document.getElementById('loginBox').classList.add('shake');
+    {% endif %}
+</script>
+
+</body>
+</html>

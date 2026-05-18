@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunnah Meat — Serving with Sincerity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+/* ============================================================ ROOT */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+    --green:#1B4332;--green-mid:#2D6A4F;--green-light:#40916C;
+    --cream:#FAF7F0;--cream-dark:#F0EBE0;
+    --gold:#C9943A;--gold-light:#E8B55A;
+    --text:#1A1A1A;--text-mid:#4A4A4A;--text-soft:#7A7060;
+    --white:#FFFFFF;--border:rgba(27,67,50,0.14);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* ============================================================ NOTICE */
+.notice-bar{background:var(--green);color:var(--cream);text-align:center;padding:.55rem 1rem;font-size:.78rem;letter-spacing:.04em}
+.notice-bar a{color:var(--gold-light);font-weight:600}
+
+/* ============================================================ NAVBAR */
+.navbar{
+    background:var(--white);border-bottom:2px solid var(--green);
+    padding:0 clamp(1rem,4vw,3rem);
+    display:flex;align-items:center;justify-content:space-between;
+    position:sticky;top:0;z-index:100;height:68px;
+    box-shadow:0 2px 16px rgba(0,0,0,.06)
+}
+.nav-brand{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
+.brand-icon{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.brand-icon img{width:100%;height:100%;object-fit:cover}
+.brand-name{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--green);font-weight:700;line-height:1.2}
+.brand-sub{font-size:.58rem;letter-spacing:.14em;color:var(--text-soft);text-transform:uppercase}
+
+.nav-links{display:flex;gap:0;list-style:none;height:68px;align-items:stretch}
+.nav-links li{position:relative}
+.nav-links>li>a{
+    display:flex;align-items:center;height:100%;padding:0 1rem;
+    font-size:.76rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--text-mid);border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap
+}
+.nav-links>li>a:hover{color:var(--green);border-bottom-color:var(--gold)}
+.dropdown:hover .dropdown-menu{display:block}
+.dropdown-menu{
+    display:none;position:absolute;top:100%;left:0;min-width:195px;
+    background:var(--white);border:1px solid var(--border);border-top:2px solid var(--green);
+    box-shadow:0 8px 28px rgba(0,0,0,.1);z-index:200;padding:.4rem 0
+}
+.dropdown-menu a{
+    display:block;padding:.6rem 1.1rem;font-size:.78rem;color:var(--text-mid);
+    border-left:3px solid transparent;transition:all .15s
+}
+.dropdown-menu a:hover{background:var(--cream);color:var(--green);border-left-color:var(--gold)}
+.nav-donate{
+    background:var(--gold)!important;color:var(--white)!important;
+    padding:.6rem 1.4rem!important;border-radius:3px!important;font-weight:600!important;
+    border-bottom:none!important;margin-left:.6rem;height:auto!important;align-self:center;
+    transition:background .2s!important
+}
+.nav-donate:hover{background:var(--gold-light)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--green);border-radius:2px}
+
+/* ============================================================ HERO SLIDER */
+.hero-slider{position:relative;height:clamp(400px,68vh,700px);overflow:hidden;background:#0a1f12}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;display:flex;align-items:center}
+.slide.active{opacity:1;z-index:1}
+.slide-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 8s ease}
+.slide.active .slide-bg{transform:scale(1.06)}
+.slide-overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(130deg,rgba(10,31,18,.88) 0%,rgba(10,31,18,.5) 55%,transparent 100%)
+}
+.slide-content{position:relative;z-index:2;padding:clamp(2rem,5vw,5rem);max-width:660px}
+.slide-quote-mark{font-family:'Amiri',serif;font-size:4rem;color:var(--gold);line-height:.5;margin-bottom:1rem;opacity:.65}
+.slide-quote{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,3.2vw,2.1rem);font-style:italic;color:#fff;line-height:1.45;margin-bottom:.9rem}
+.slide-source{font-size:.72rem;letter-spacing:.14em;color:var(--gold-light);text-transform:uppercase;margin-bottom:2rem}
+.slide-cta{
+    display:inline-flex;align-items:center;gap:.5rem;
+    padding:.82rem 1.8rem;background:var(--gold);color:#fff;
+    font-weight:600;font-size:.84rem;letter-spacing:.06em;border-radius:3px;transition:all .25s
+}
+.slide-cta:hover{background:var(--gold-light);transform:translateY(-2px)}
+.slider-dots{position:absolute;bottom:1.4rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:5}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;border:none;transition:all .3s}
+.dot.active{background:var(--gold);transform:scale(1.35)}
+.slider-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:5;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+    color:#fff;width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:1.1rem;
+    display:flex;align-items:center;justify-content:center;transition:all .2s
+}
+.slider-arrow:hover{background:var(--gold);border-color:var(--gold)}
+.slider-arrow.prev{left:1.2rem}.slider-arrow.next{right:1.2rem}
+
+/* ============================================================ DONATE STRIP */
+.donate-strip{
+    background:var(--white);border-bottom:1px solid var(--border);
+    padding:1.3rem clamp(1rem,4vw,3rem);
+    display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+    box-shadow:0 2px 12px rgba(0,0,0,.05)
+}
+.donate-strip label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-soft);white-space:nowrap}
+.donate-strip select,.donate-strip input[type=number]{
+    border:1px solid var(--border);background:var(--cream);
+    padding:.58rem .9rem;font-size:.84rem;font-family:'DM Sans',sans-serif;
+    border-radius:3px;color:var(--text);outline:none;transition:border-color .2s
+}
+.donate-strip select:focus,.donate-strip input:focus{border-color:var(--green)}
+.amount-pills{display:flex;gap:.4rem;flex-wrap:wrap}
+.pill{
+    padding:.46rem .82rem;border:1px solid var(--border);border-radius:20px;
+    font-size:.76rem;cursor:pointer;background:var(--cream);
+    transition:all .2s;font-family:'DM Sans',sans-serif;color:var(--text-mid)
+}
+.pill:hover,.pill.active{background:var(--green);color:#fff;border-color:var(--green)}
+.donate-strip-btn{
+    background:var(--green);color:#fff;border:none;
+    padding:.68rem 1.7rem;font-family:'DM Sans',sans-serif;font-size:.84rem;
+    font-weight:600;border-radius:3px;cursor:pointer;letter-spacing:.05em;
+    transition:background .2s;white-space:nowrap
+}
+.donate-strip-btn:hover{background:var(--green-mid)}
+
+/* ============================================================ SECTION COMMONS */
+.section{padding:clamp(3rem,6vw,5rem) clamp(1rem,4vw,3rem)}
+.section-alt{background:var(--cream-dark)}
+.section-head{text-align:center;margin-bottom:2.8rem}
+.section-tag{
+    display:inline-block;background:var(--green);color:var(--cream);
+    font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+    padding:.32rem .95rem;border-radius:2px;margin-bottom:.9rem
+}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,4vw,2.7rem);color:var(--green);line-height:1.2;margin-bottom:.7rem}
+.section-sub{font-size:.9rem;color:var(--text-soft);max-width:520px;margin:0 auto;line-height:1.75}
+
+/* ============================================================ PROGRAMS CARDS */
+.programs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.4rem;max-width:1200px;margin:0 auto}
+.program-card{
+    background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;
+    transition:transform .3s,box-shadow .3s;cursor:pointer
+}
+.program-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(27,67,50,.12)}
+.program-img-box{width:100%;height:195px;overflow:hidden;position:relative}
+.program-img-box img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.program-card:hover .program-img-box img{transform:scale(1.07)}
+.program-img-overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(27,67,50,.5) 0%,transparent 60%);
+    pointer-events:none
+}
+.program-body{padding:1.3rem}
+.program-tag{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:.45rem}
+.program-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--green);margin-bottom:.55rem}
+.program-desc{font-size:.8rem;color:var(--text-soft);line-height:1.65;margin-bottom:.9rem}
+.program-price{font-size:1.05rem;font-weight:700;color:var(--green);margin-bottom:.75rem}
+.program-price span{font-size:.72rem;font-weight:400;color:var(--text-soft)}
+.program-btn{
+    display:block;text-align:center;padding:.62rem;
+    background:var(--green);color:#fff;border-radius:3px;
+    font-size:.78rem;font-weight:600;letter-spacing:.05em;transition:background .2s
+}
+.program-btn:hover{background:var(--green-mid)}
+
+/* ============================================================ IMPACT STRIP */
+.impact-strip{
+    background:var(--green);padding:2.8rem clamp(1rem,4vw,3rem);
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center
+}
+.impact-num{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4.5vw,3rem);color:var(--gold-light);font-weight:700;line-height:1}
+.impact-label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(250,247,240,.6);margin-top:.4rem}
+
+/* ============================================================ ABOUT */
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);max-width:1200px;margin:0 auto;align-items:center}
+.about-img-stack{position:relative;height:420px}
+.about-img-main{
+    width:78%;height:330px;border-radius:8px;overflow:hidden;
+    position:absolute;top:0;left:0;
+    box-shadow:0 12px 36px rgba(0,0,0,.18)
+}
+.about-img-main img{width:100%;height:100%;object-fit:cover}
+.about-img-float{
+    width:52%;height:210px;border-radius:8px;overflow:hidden;
+    position:absolute;bottom:0;right:0;
+    border:4px solid var(--cream);box-shadow:0 8px 22px rgba(0,0,0,.14)
+}
+.about-img-float img{width:100%;height:100%;object-fit:cover}
+.about-stat-badge{
+    position:absolute;top:46%;right:-10px;transform:translateY(-50%);
+    background:var(--gold);color:#fff;padding:.9rem 1.1rem;border-radius:6px;
+    text-align:center;box-shadow:0 8px 18px rgba(201,148,58,.35);z-index:5
+}
+.about-stat-badge .num{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;line-height:1}
+.about-stat-badge .lbl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;margin-top:.15rem}
+.about-text .section-tag{text-align:left;display:inline-block}
+.about-text .section-title{text-align:left}
+.about-text p{font-size:.9rem;color:var(--text-mid);line-height:1.8;margin-bottom:.9rem}
+.about-values{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.4rem 0}
+.value-item{display:flex;align-items:flex-start;gap:.65rem}
+.value-icon{font-size:1.2rem;flex-shrink:0;margin-top:.1rem}
+.value-text h4{font-size:.82rem;font-weight:600;color:var(--green);margin-bottom:.18rem}
+.value-text p{font-size:.76rem;color:var(--text-soft);line-height:1.5}
+.about-cta{
+    display:inline-flex;align-items:center;gap:.5rem;
+    padding:.82rem 1.9rem;background:var(--green);color:#fff;
+    border-radius:3px;font-weight:600;font-size:.84rem;transition:background .2s
+}
+.about-cta:hover{background:var(--green-mid)}
+
+/* ============================================================ PROGRAM FORM */
+.program-form-section{
+    background:var(--green);
+    padding:clamp(3rem,6vw,5rem) clamp(1rem,4vw,3rem)
+}
+.program-form-inner{
+    max-width:900px;margin:0 auto;
+    display:grid;grid-template-columns:1fr 1.4fr;gap:3rem;align-items:start
+}
+.form-intro .section-tag{background:var(--gold)}
+.form-intro .section-title{color:#fff;text-align:left}
+.form-intro .section-sub{color:rgba(250,247,240,.65);text-align:left;margin:0}
+.form-intro .form-steps{margin-top:1.8rem;display:flex;flex-direction:column;gap:.9rem}
+.form-step{display:flex;align-items:flex-start;gap:.8rem}
+.step-num{
+    width:28px;height:28px;background:var(--gold);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.75rem;font-weight:700;color:#fff;flex-shrink:0
+}
+.step-txt h4{font-size:.85rem;color:#fff;font-weight:600;margin-bottom:.15rem}
+.step-txt p{font-size:.76rem;color:rgba(250,247,240,.6);line-height:1.5}
+
+/* The form card */
+.pf-card{
+    background:#fff;border-radius:10px;padding:2rem;
+    box-shadow:0 20px 50px rgba(0,0,0,.25)
+}
+.pf-card h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--green);margin-bottom:1.5rem;text-align:center}
+.pf-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.pf-group{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem}
+.pf-group.half{margin-bottom:0}
+.pf-group label{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);font-weight:600}
+.pf-group input,.pf-group select,.pf-group textarea{
+    border:1px solid rgba(27,67,50,.2);background:var(--cream);
+    padding:.72rem 1rem;font-size:.88rem;font-family:'DM Sans',sans-serif;
+    border-radius:5px;color:var(--text);outline:none;transition:border-color .2s;width:100%
+}
+.pf-group input:focus,.pf-group select:focus,.pf-group textarea:focus{border-color:var(--green);background:#fff}
+.pf-group textarea{resize:vertical;min-height:80px}
+.pf-group input::placeholder,.pf-group textarea::placeholder{color:#b0a898}
+
+/* Dynamic program fields */
+.program-fields{margin-bottom:1rem}
+.program-field-group{display:none}
+.program-field-group.active{display:block}
+
+.pf-submit{
+    width:100%;padding:1rem;background:var(--green);color:#fff;border:none;
+    font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;
+    border-radius:5px;cursor:pointer;letter-spacing:.06em;transition:all .2s;margin-top:.5rem
+}
+.pf-submit:hover{background:var(--green-mid);transform:translateY(-1px)}
+
+/* Success banner */
+.success-banner{
+    display:none;background:#d4edda;border:1px solid #c3e6cb;color:#155724;
+    padding:1rem;border-radius:5px;margin-bottom:1rem;font-size:.85rem;text-align:center
+}
+.success-banner.show{display:block}
+
+/* ============================================================ TESTIMONIALS */
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.4rem;max-width:1100px;margin:0 auto}
+.testimonial{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:1.8rem;position:relative}
+.testimonial::before{content:'"';font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--gold);opacity:.28;position:absolute;top:.5rem;left:1.1rem;line-height:1}
+.testimonial p{font-size:.86rem;color:var(--text-mid);line-height:1.7;margin-bottom:1.1rem;font-style:italic}
+.testimonial-name{font-weight:600;font-size:.83rem;color:var(--green)}
+.testimonial-city{font-size:.72rem;color:var(--text-soft)}
+
+/* ============================================================ VIDEO */
+.video-section{padding:clamp(3rem,6vw,5rem) clamp(1rem,4vw,3rem);text-align:center;position:relative;overflow:hidden}
+.video-section::before{
+    content:'';position:absolute;inset:0;
+    background:url('static/images/background.png') center/cover;
+    filter:brightness(.18) saturate(.5);z-index:0
+}
+.video-inner{position:relative;z-index:1}
+.video-section .section-title{color:#fff}
+.video-section .section-sub{color:rgba(255,255,255,.6)}
+.video-section .section-tag{background:var(--gold)}
+.video-wrapper{
+    position:relative;max-width:820px;margin:2.5rem auto 0;
+    border-radius:12px;overflow:hidden;aspect-ratio:16/9;
+    box-shadow:0 24px 70px rgba(0,0,0,.6);background:#0a1f12
+}
+.video-wrapper iframe{width:100%;height:100%;border:none;display:block}
+.video-thumb{
+    position:absolute;inset:0;cursor:pointer;transition:opacity .3s;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem
+}
+.video-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.play-ring{
+    position:relative;z-index:2;
+    width:74px;height:74px;background:rgba(201,148,58,.9);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 0 14px rgba(201,148,58,.22);transition:transform .3s,background .2s;
+    font-size:1.6rem;color:#fff
+}
+.video-thumb:hover .play-ring{transform:scale(1.1);background:var(--gold)}
+.video-label{position:relative;z-index:2;font-family:'Playfair Display',serif;font-size:1rem;color:#fff;font-style:italic;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+
+/* ============================================================ FOOTER */
+.footer{background:var(--green);color:rgba(250,247,240,.78);padding:3rem clamp(1rem,4vw,3rem) 1.5rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;max-width:1200px;margin:0 auto 2rem}
+.footer-brand-logo{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem}
+.footer-brand-icon{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.footer-brand-icon img{width:100%;height:100%;object-fit:cover}
+.footer-brand-name{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--cream);font-weight:700}
+.footer p{font-size:.8rem;line-height:1.7;margin-bottom:1.2rem}
+.social-links{display:flex;gap:.6rem}
+.social-btn{
+    width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;
+    transition:all .2s;color:var(--cream)
+}
+.social-btn:hover{background:var(--gold);border-color:var(--gold)}
+.social-btn svg{width:15px;height:15px;fill:currentColor}
+.footer-col h4{font-family:'Playfair Display',serif;font-size:.88rem;color:var(--cream);margin-bottom:1rem;font-weight:600}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.48rem}
+.footer-col li a{font-size:.78rem;transition:color .2s}
+.footer-col li a:hover{color:var(--gold-light)}
+.footer-bottom{
+    border-top:1px solid rgba(255,255,255,.1);padding-top:1.4rem;
+    max-width:1200px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+    font-size:.72rem;color:rgba(250,247,240,.45)
+}
+.footer-bottom-links{display:flex;gap:1.4rem}
+.footer-bottom-links a:hover{color:var(--gold-light)}
+
+/* ============================================================ RESPONSIVE */
+@media(max-width:900px){
+    .nav-links{display:none}
+    .hamburger{display:flex}
+    .nav-links.open{
+        display:flex;flex-direction:column;
+        position:absolute;top:68px;left:0;right:0;
+        background:var(--white);border-bottom:2px solid var(--green);
+        padding:.8rem;height:auto;gap:0;box-shadow:0 8px 24px rgba(0,0,0,.1)
+    }
+    .nav-links.open li{width:100%}
+    .nav-links.open>li>a{height:auto;padding:.75rem .5rem;border-bottom:none;border-top:1px solid var(--border)}
+    .nav-donate{display:inline-flex!important;margin:.4rem 0 0}
+    .dropdown-menu{position:static;border:none;box-shadow:none;padding:0 0 0 1rem;display:none}
+    .dropdown.open .dropdown-menu{display:block}
+    .about-inner{grid-template-columns:1fr}
+    .about-img-stack{height:260px;margin-bottom:1rem}
+    .about-stat-badge{right:.5rem}
+    .impact-strip{grid-template-columns:repeat(2,1fr)}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:1.8rem}
+    .program-form-inner{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+    .donate-strip{flex-direction:column;align-items:stretch}
+    .footer-grid{grid-template-columns:1fr}
+    .footer-bottom{flex-direction:column;text-align:center}
+    .about-values{grid-template-columns:1fr}
+    .slider-arrow{display:none}
+    .pf-row{grid-template-columns:1fr}
+}
+
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+    </style>
+</head>
+<body>
+
+<!-- NOTICE -->
+<div class="notice-bar">
+    🌙 Eid al-Adha 2025 Qurbani slots open — Limited animals available!
+    &nbsp;<a href="#programs">Book Now →</a>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <a href="/" class="nav-brand">
+        <div class="brand-icon">
+            <img src="static/images/logo.png" alt="logo">
+        </div>
+        <div>
+            <div class="brand-name">Sunnah Meat</div>
+            <div class="brand-sub">Serving Since 2016</div>
+        </div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About Us</a></li>
+        <li class="dropdown">
+            <a href="#programs">Programs ▾</a>
+            <div class="dropdown-menu">
+                <a href="#programs">Qurbani Service</a>
+                <a href="#programs">Ration Packages</a>
+                <a href="#programs">Orphan Meals</a>
+                <a href="#programs">Clean Water</a>
+                <a href="#programs">Education Aid</a>
+                <a href="#programs">Shelter Support</a>
+            </div>
+        </li>
+        <li><a href="#impact">Our Impact</a></li>
+        <li><a href="#video">Media</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#program-form" class="nav-donate">Donate Now</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<!-- HERO SLIDER -->
+<section class="hero-slider">
+    <div class="slide active">
+        <img class="slide-bg" src="static/images/qurbani1.png" alt="farm">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+            <div class="slide-quote-mark">"</div>
+            <p class="slide-quote">Whoever offers a Qurbani willingly, seeking the pleasure of Allah — it shall be a shield for him on the Day of Judgment.</p>
+            <p class="slide-source">— Hadith, Ibn Majah</p>
+            <a href="#program-form" class="slide-cta">Book Your Qurbani →</a>
+        </div>
+    </div>
+    <div class="slide">
+        <img class="slide-bg" src="static/images/feeding poor.png" alt="feeding">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+            <div class="slide-quote-mark">"</div>
+            <p class="slide-quote">Feeding the hungry is a greater work than raising the dead.</p>
+            <p class="slide-source">— Saint John Chrysostom</p>
+            <a href="#program-form" class="slide-cta">Feed a Family Today →</a>
+        </div>
+    </div>
+    <div class="slide">
+        <img class="slide-bg" src="static/images/kids.png" alt="children">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+            <div class="slide-quote-mark">"</div>
+            <p class="slide-quote">No one has ever become poor by giving.</p>
+            <p class="slide-source">— Anne Frank</p>
+            <a href="#program-form" class="slide-cta">Make a Difference →</a>
+        </div>
+    </div>
+    <div class="slider-dots">
+        <button class="dot active" onclick="goToSlide(0)"></button>
+        <button class="dot"        onclick="goToSlide(1)"></button>
+        <button class="dot"        onclick="goToSlide(2)"></button>
+    </div>
+    <button class="slider-arrow prev" onclick="prevSlide()">‹</button>
+    <button class="slider-arrow next" onclick="nextSlide()">›</button>
+</section>
+
+<!-- QUICK DONATE STRIP -->
+<div class="donate-strip" id="booking" style="display:flex;justify-content:center;align-items:center;gap:15px;flex-wrap:wrap;">
+    <label>SELECT PROGRAM</label>
+    <select id="stripProgram">
+        <option>Qurbani — Goat Share</option>
+        <option>Qurbani — Cow Share</option>
+        <option>Ration Package</option>
+        <option>Orphan Meals</option>
+        <option>Clean Water</option>
+        <option>General Donation</option>
+    </select>
+    <button class="donate-strip-btn" onclick="scrollToForm()">💚 Donate Now</button>
+</div>
+
+<!-- PROGRAMS -->
+<section class="section" id="programs">
+    <div class="section-head reveal">
+        <span class="section-tag">Our Programs</span>
+        <h2 class="section-title">How Your Donation Helps</h2>
+        <p class="section-sub">From Qurbani meat to clean water — every dollar delivered where it matters most.</p>
+    </div>
+    <div class="programs-grid">
+
+        <div class="program-card reveal">
+            <div class="program-img-box">
+                <img src="static/images/qurbani.png" alt="Goat">
+                <div class="program-img-overlay"></div>
+            </div>
+            <div class="program-body">
+                <p class="program-tag">Seasonal</p>
+                <h3 class="program-title">Qurbani Service</h3>
+                <p class="program-desc">Halal sacrifice on Eid al-Adha. Meat distributed to deserving families across Pakistan.</p>
+                <p class="program-price">from $110 <span>/ share</span></p>
+                <a href="#program-form" class="program-btn">Book Qurbani</a>
+            </div>
+        </div>
+
+        <div class="program-card reveal">
+            <div class="program-img-box">
+                <img src="static/images/ration.png" alt="Food rations">
+                <div class="program-img-overlay"></div>
+            </div>
+            <div class="program-body">
+                <p class="program-tag">Food Security</p>
+                <h3 class="program-title">Ration Packages</h3>
+                <p class="program-desc">Monthly food ration for a family of five — rice, flour, lentils, oil. Full 30-day supply.</p>
+                <p class="program-price">$178 <span>/ package</span></p>
+                <a href="#booking" class="program-btn">Donate Now</a>
+            </div>
+        </div>
+
+        <div class="program-card reveal">
+            <div class="program-img-box">
+                <img src="static/images/food.png" alt="Children">
+                <div class="program-img-overlay"></div>
+            </div>
+            <div class="program-body">
+                <p class="program-tag">Orphan Care</p>
+                <h3 class="program-title">Feed an Orphan</h3>
+                <p class="program-desc">Nutritious daily meals for orphaned children in our partner shelters for a full month.</p>
+                <p class="program-price">$169 <span>/ month</span></p>
+                <a href="#program-form" class="program-btn">Sponsor a Child</a>
+            </div>
+        </div>
+
+        <div class="program-card reveal">
+            <div class="program-img-box">
+                <img src="static/images/water.png" alt="Water">
+                <div class="program-img-overlay"></div>
+            </div>
+            <div class="program-body">
+                <p class="program-tag">WASH</p>
+                <h3 class="program-title">Clean Water Access</h3>
+                <p class="program-desc">Install hand pumps and filtration units in villages with no clean drinking water.</p>
+                <p class="program-price">from $150 <span>/ unit</span></p>
+                <a href="#program-form" class="program-btn">Give Water</a>
+            </div>
+        </div>
+
+        <div class="program-card reveal">
+            <div class="program-img-box">
+                <img src="static/images/education.png" alt="Education">
+                <div class="program-img-overlay"></div>
+            </div>
+            <div class="program-body">
+                <p class="program-tag">Education</p>
+                <h3 class="program-title">School Supplies</h3>
+                <p class="program-desc">Notebooks, bags, uniforms for underprivileged children for a full academic year.</p>
+                <p class="program-price">$235 <span>/ child / year</span></p>
+                <a href="#program-form" class="program-btn">Educate a Child</a>
+            </div>
+        </div>
+
+        <div class="program-card reveal">
+            <div class="program-img-box">
+                <img src="static/images/shelter.png" alt="Shelter">
+                <div class="program-img-overlay"></div>
+            </div>
+            <div class="program-body">
+                <p class="program-tag">Shelter</p>
+                <h3 class="program-title">Emergency Shelter</h3>
+                <p class="program-desc">Tarpaulin shelters and blankets for flood-displaced families during crisis seasons.</p>
+                <p class="program-price">$139 <span>/ family kit</span></p>
+                <a href="#program-form" class="program-btn">Shelter a Family</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- IMPACT STATS -->
+<div class="impact-strip" id="impact">
+    <div class="reveal"><div class="impact-num">12,400+</div><div class="impact-label">Animals Sacrificed</div></div>
+    <div class="reveal"><div class="impact-num">68,000+</div><div class="impact-label">Families Served</div></div>
+    <div class="reveal"><div class="impact-num">9 Years</div><div class="impact-label">Trusted Service</div></div>
+    <div class="reveal"><div class="impact-num">$2.1M+</div><div class="impact-label">Donations Delivered</div></div>
+</div>
+
+<!-- ABOUT US -->
+<section class="section section-alt" id="about">
+    <div class="about-inner">
+        <div class="about-img-stack reveal">
+            <div class="about-img-main">
+                <img src="static/images/community.png" alt="Our team">
+            </div>
+            <div class="about-img-float">
+                <img src="static/images/team.png" alt="Community">
+            </div>
+            <div class="about-stat-badge">
+                <div class="num">9+</div>
+                <div class="lbl">Years of<br>Service</div>
+            </div>
+        </div>
+        <div class="about-text reveal">
+            <span class="section-tag">About Us</span>
+            <h2 class="section-title">Rooted in Faith,<br>Driven by Purpose</h2>
+            <p>Sunnah Meat was founded in 2016 with a simple mission: to serve humanity with dignity, compassion, and sincerity. We believe that no family should sleep hungry, and every act of giving should create real impact in the lives of those in need.</p>
+            <p>We are a Pakistan-based humanitarian organization operating in Lahore, Faisalabad, and Multan. Our dedicated volunteers, trusted partners, and support teams work together to provide food assistance, community support, and relief programs to underserved families throughout the year.</p>
+            <p>Beyond seasonal campaigns, we actively support initiatives focused on feeding the hungry, helping orphan families, distributing ration packages, supporting shelter communities, and improving access to clean water and education.</p>
+            <div class="about-values">
+                <div class="value-item"><span class="value-icon"></span><div class="value-text"><h4>100% Trusted Support</h4><p>Every donation handled with honesty, care, and responsibility.</p></div></div>
+                <div class="value-item"><span class="value-icon"></span><div class="value-text"><h4>Full Transparency</h4><p>Photo & video updates shared to keep donors connected with their impact.</p></div></div>
+                <div class="value-item"><span class="value-icon"></span><div class="value-text"><h4>Community Care</h4><p>Fresh meals, ration support, and essential aid delivered to deserving families.</p></div></div>
+                <div class="value-item"><span class="value-icon"></span><div class="value-text"><h4>Helping Those in Need</h4><p>Supporting poor families, shelters, and vulnerable communities year-round.</p></div></div>
+            </div>
+            <a href="#program-form" class="about-cta">Donate Now →</a>
+        </div>
+    </div>
+</section>
+
+<!-- PROGRAM FORM -->
+<section class="program-form-section" id="program-form">
+    <div class="program-form-inner">
+        <!-- Left intro -->
+        <div class="form-intro reveal">
+            <span class="section-tag">Get Involved</span>
+            <h2 class="section-title">Choose Your Program &amp; Donate</h2>
+            <p class="section-sub">Fill in your details, select a program and donation amount. We'll confirm within 24 hours.</p>
+            <div class="form-steps">
+                <div class="form-step">
+                    <div class="step-num">1</div>
+                    <div class="step-txt"><h4>Select Program</h4><p>Choose from Qurbani, Ration, Orphan Meals and more.</p></div>
+                </div>
+                <div class="form-step">
+                    <div class="step-num">2</div>
+                    <div class="step-txt"><h4>Fill Your Info</h4><p>Your name, contact and relevant program details.</p></div>
+                </div>
+                <div class="form-step">
+                    <div class="step-num">3</div>
+                    <div class="step-txt"><h4>Confirmation</h4><p>We call or WhatsApp you within 24 hours with payment info.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right form -->
+        <div class="pf-card reveal">
+            <h3>Program Registration Form</h3>
+
+            <div class="success-banner" id="successBanner">
+                ✅ Your request has been submitted! We'll contact you within 24 hours. JazakAllah Khair!
+            </div>
+
+            <form action="/program-request" method="POST" id="programForm">
+
+                <!-- Basic info -->
+                <div class="pf-row">
+                    <div class="pf-group half">
+                        <label>Full Name *</label>
+                        <input name="name" type="text" placeholder="your name here" required>
+                    </div>
+                    <div class="pf-group half">
+                        <label>Phone / WhatsApp *</label>
+                        <input name="phone" type="tel" placeholder="+1 / 03XX-XXXXXXX" required>
+                    </div>
+                </div>
+
+                <div class="pf-row">
+                    <div class="pf-group half">
+                        <label>Email Address</label>
+                        <input name="email" type="email" placeholder="you@email.com">
+                    </div>
+                    <div class="pf-group half">
+                        <label>Country</label>
+                        <select name="country">
+                            <option value="">Select country</option>
+                            <option>Pakistan</option>
+                            <option>United States</option>
+                            <option>United Kingdom</option>
+                            <option>Canada</option>
+                            <option>UAE</option>
+                            <option>Saudi Arabia</option>
+                            <option>Australia</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Program selector -->
+                <div class="pf-group">
+                    <label>Select Program *</label>
+                    <select name="program" id="programSelect" onchange="showProgramFields(this.value)" required>
+                        <option value="">— Choose a program —</option>
+                        <option value="Qurbani - Goat">Qurbani — Goat ($210+)</option>
+                        <option value="Qurbani - Sheep">Qurbani — Sheep ($189+)</option>
+                        <option value="Qurbani - Cow Share">Qurbani — Cow Share ($110+)</option>
+                        <option value="Qurbani - Full Cow">Qurbani — Full Cow ($780 to 1300)</option>
+                        <option value="Qurbani - Camel Share">Qurbani — Camel Share ($345+)</option>
+                        <option value="Ration Package">Ration Package ($178)</option>
+                        <option value="Orphan Meals">Orphan Meals ($169/month)</option>
+                        <option value="Clean Water">Clean Water Unit ($150+)</option>
+                        <option value="Education Aid">Education Aid ($235)</option>
+                        <option value="Emergency Shelter">Emergency Shelter ($139)</option>
+                        <option value="General Donation">General Donation</option>
+                    </select>
+                </div>
+
+                <!-- DYNAMIC FIELDS -->
+                <div class="program-fields">
+
+                    <!-- Qurbani fields -->
+                    <div class="program-field-group" id="field-qurbani">
+                        <div class="pf-row">
+                            <div class="pf-group half">
+                                <label>Delivery Address</label>
+                                <input name="delivery_address" type="text" placeholder="City, Street, House No.">
+                            </div>
+                            <div class="pf-group half">
+                                <label>Preferred Eid Date</label>
+                                <input name="eid_date" type="date">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ration fields -->
+                    <div class="program-field-group" id="field-ration">
+                        <div class="pf-row">
+                            <div class="pf-group half">
+                                <label>No. of Packages</label>
+                                <input name="ration_qty" type="number" min="1" placeholder="e.g. 3">
+                            </div>
+                            <div class="pf-group half">
+                                <label>Target Area (optional)</label>
+                                <input name="ration_area" type="text" placeholder="e.g. Lahore, rural">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Orphan fields -->
+                    <div class="program-field-group" id="field-orphan">
+                        <div class="pf-row">
+                            <div class="pf-group half">
+                                <label>No. of Months</label>
+                                <input name="orphan_months" type="number" min="1" placeholder="e.g. 6">
+                            </div>
+                            <div class="pf-group half">
+                                <label>No. of Children</label>
+                                <input name="orphan_count" type="number" min="1" placeholder="e.g. 2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Water fields -->
+                    <div class="program-field-group" id="field-water">
+                        <div class="pf-group">
+                            <label>Location for Water Unit</label>
+                            <input name="water_location" type="text" placeholder="Village / District name">
+                        </div>
+                    </div>
+
+                    <!-- Education fields -->
+                    <div class="program-field-group" id="field-education">
+                        <div class="pf-row">
+                            <div class="pf-group half">
+                                <label>No. of Children</label>
+                                <input name="edu_count" type="number" min="1" placeholder="e.g. 5">
+                            </div>
+                            <div class="pf-group half">
+                                <label>School / Area</label>
+                                <input name="edu_area" type="text" placeholder="School or district">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- end dynamic fields -->
+
+                <!-- Amount -->
+                <div class="pf-row">
+                    <div class="pf-group half">
+                        <label>Donation Amount (USD) *</label>
+                        <input name="amount" type="number" id="formAmount" min="1" placeholder="e.g. 110" required>
+                    </div>
+                    <div class="pf-group half">
+                        <label>Payment Method</label>
+                        <select name="payment_note">
+                            <option>PayPal</option>
+                            <option>Bank Transfer</option>
+                            <option>Zelle</option>
+                            <option>JazzCash</option>
+                            <option>Easypaisa</option>
+                            <option>Cash on Delivery</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pf-group">
+                    <label>Message / Special Instructions (optional)</label>
+                    <textarea name="message" placeholder="Any notes, dedications, or specific requests..."></textarea>
+                </div>
+
+                <button type="button" class="pf-submit" onclick="goToPayment()">Proceed to Payment →</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+    <div class="section-head reveal">
+        <span class="section-tag">Testimonials</span>
+        <h2 class="section-title">What Our Donors Say</h2>
+    </div>
+    <div class="testimonials-grid">
+        <div class="testimonial reveal">
+            <p>I've been booking Qurbani through Sunnah Meat for 4 years. They send photos and videos the same day — absolute peace of mind.</p>
+            <div class="testimonial-name">Ahmed Karimi</div>
+            <div class="testimonial-city">Dubai, UAE</div>
+        </div>
+        <div class="testimonial reveal">
+            <p>The ration package program is incredible. My family sponsored 10 packages this Ramadan and received full documentation. JazakAllah khair!</p>
+            <div class="testimonial-name">Fatima Al-Rashid</div>
+            <div class="testimonial-city">London, UK</div>
+        </div>
+        <div class="testimonial reveal">
+            <p>Professional, trustworthy, truly Sunnah in every step. The orphan meals program moved me — you can see the impact directly.</p>
+            <div class="testimonial-name">Dr. Usman Malik</div>
+            <div class="testimonial-city">Toronto, Canada</div>
+        </div>
+    </div>
+</section>
+
+<!-- VIDEO SECTION -->
+<section class="video-section" id="video">
+    <div class="video-inner">
+        <div class="section-head reveal">
+            <span class="section-tag">See Our Work</span>
+            <h2 class="section-title">Witnessing the Impact</h2>
+            <p class="section-sub">Watch how your donation transforms lives — from Qurbani sacrifice to community feeding and delivery.</p>
+        </div>
+        <div class="video-wrapper reveal" id="videoWrapper">
+            <div class="video-thumb" id="videoThumb" onclick="playVideo()">
+                <img src="static/images/video.png" alt="video thumb">
+                <div class="play-ring">▶</div>
+                <div class="video-label">Watch Our Story</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="contact">
+    <div class="footer-grid">
+        <div>
+            <div class="footer-brand-logo">
+                <div class="footer-brand-icon">
+                    <img src="static/images/logo.png" alt="">
+                </div>
+                <span class="footer-brand-name">Sunnah Meat</span>
+            </div>
+            <p>A Pakistan-based humanitarian service committed to Sunnah-compliant Qurbani and year-round community welfare programs.</p>
+            <div class="social-links">
+                <a href="#" class="social-btn" title="Instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                </a>
+                <a href="#" class="social-btn" title="Facebook">
+                    <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href="#" class="social-btn" title="Twitter / X">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="#" class="social-btn" title="YouTube">
+                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Programs</h4>
+            <ul>
+                <li><a href="#">Qurbani Service</a></li>
+                <li><a href="#">Ration Packages</a></li>
+                <li><a href="#">Orphan Meals</a></li>
+                <li><a href="#">Clean Water</a></li>
+                <li><a href="#">Education Aid</a></li>
+                <li><a href="#">Shelter Support</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>About</h4>
+            <ul>
+                <li><a href="#">Who We Are</a></li>
+                <li><a href="#">Our Team</a></li>
+                <li><a href="#">Impact</a></li>
+                <li><a href="#">Financials</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+                <li><a href="#">Lahore, Pakistan</a></li>
+                <li><a href="#">+92 300 1234567</a></li>
+                <li><a href="#">info@sunnahmeat.org</a></li>
+                <li><a href="#">Mon–Sat 9am–6pm</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2025 Sunnah Meat. All rights reserved. | Halal Certified.</span>
+        <div class="footer-bottom-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms</a>
+            <a href="#">Refund Policy</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+/* ─── SLIDER ─── */
+let cur=0;
+const slides=document.querySelectorAll('.slide');
+const dots=document.querySelectorAll('.dot');
+function goToSlide(n){
+    slides[cur].classList.remove('active');dots[cur].classList.remove('active');
+    cur=(n+slides.length)%slides.length;
+    slides[cur].classList.add('active');dots[cur].classList.add('active');
+}
+function nextSlide(){goToSlide(cur+1)}
+function prevSlide(){goToSlide(cur-1)}
+setInterval(nextSlide,5500);
+
+/* ─── DONATE STRIP → PAYMENT PAGE ─── */
+function scrollToForm(){
+    document.getElementById('program-form').scrollIntoView({behavior:'smooth'});
+}
+
+/* ─── PROGRAM MINIMUM AMOUNTS (File 2 prices) ─── */
+const programMins = {
+    'Qurbani - Goat':         210,
+    'Qurbani - Sheep':        189,
+    'Qurbani - Cow Share':    110,
+    'Qurbani - Full Cow':     780,
+    'Qurbani - Camel Share':  345,
+    'Ration Package':         178,
+    'Orphan Meals':           169,
+    'Clean Water':            150,
+    'Education Aid':          235,
+    'Emergency Shelter':      139,
+    'General Donation':         1,
+};
+
+/* ─── PROGRAM FORM → PAYMENT PAGE (with minimum validation) ─── */
+function goToPayment(){
+    const prog   = document.getElementById('programSelect').value;
+    const amount = parseFloat(document.getElementById('formAmount').value);
+    const name   = document.querySelector('input[name="name"]')?.value || '';
+    const phone  = document.querySelector('input[name="phone"]')?.value || '';
+
+    if(!prog)  { alert('Please select a program first.'); return; }
+    if(!amount){ alert('Please enter a donation amount.'); return; }
+
+    // ── Minimum amount check (File 1 logic) ──
+    const minAmt = programMins[prog] || 1;
+    if(amount < minAmt){
+        alert('⚠️ Minimum donation for "' + prog + '" is $' + minAmt + '.\nPlease enter $' + minAmt + ' or more.');
+        const inp = document.getElementById('formAmount');
+        inp.value = minAmt;
+        inp.focus();
+        inp.style.borderColor = '#C0392B';
+        setTimeout(()=> inp.style.borderColor = '', 2500);
+        return;
+    }
+
+    sessionStorage.setItem('sm_name',  name);
+    sessionStorage.setItem('sm_phone', phone);
+
+    window.location.href = '/payment?program='+encodeURIComponent(prog)+'&amount='+encodeURIComponent(amount)+'&currency=USD';
+}
+
+/* ─── DYNAMIC PROGRAM FIELDS + AUTO MIN AMOUNT (File 1 logic) ─── */
+function showProgramFields(val){
+    document.querySelectorAll('.program-field-group').forEach(el=>el.classList.remove('active'));
+    if(!val) return;
+
+    // Auto-set minimum amount
+    const minAmt   = programMins[val] || 1;
+    const amtInput = document.getElementById('formAmount');
+    amtInput.value       = minAmt;
+    amtInput.min         = minAmt;
+    amtInput.placeholder = 'Min $' + minAmt;
+
+    // Show hint below amount field
+    let hint = document.getElementById('amountHint');
+    if(!hint){
+        hint = document.createElement('small');
+        hint.id = 'amountHint';
+        hint.style.cssText = 'color:#2D6A4F;font-size:.72rem;margin-top:.3rem;display:block;font-weight:600';
+        amtInput.parentElement.appendChild(hint);
+    }
+    hint.textContent = 'Minimum amount: $' + minAmt;
+
+    // Show relevant extra fields
+    if(val.startsWith('Qurbani'))  document.getElementById('field-qurbani')?.classList.add('active');
+    if(val==='Ration Package')     document.getElementById('field-ration')?.classList.add('active');
+    if(val==='Orphan Meals')       document.getElementById('field-orphan')?.classList.add('active');
+    if(val==='Clean Water')        document.getElementById('field-water')?.classList.add('active');
+    if(val==='Education Aid')      document.getElementById('field-education')?.classList.add('active');
+}
+
+/* ─── SUCCESS BANNER on ?submitted=1 ─── */
+if(window.location.search.includes('submitted=1')){
+    document.getElementById('successBanner').classList.add('show');
+    document.getElementById('program-form').scrollIntoView({behavior:'smooth'});
+}
+
+/* ─── VIDEO ─── */
+function playVideo(){
+    document.getElementById('videoWrapper').innerHTML=
+        `<video controls autoplay style="width:100%;height:100%;object-fit:cover;">
+            <source src="static/videos/demo.mp4" type="video/mp4">
+        </video>`;
+}
+
+/* ─── MOBILE NAV ─── */
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('open')}
+document.querySelectorAll('.dropdown>a').forEach(a=>{
+    a.addEventListener('click',e=>{
+        if(window.innerWidth<900){e.preventDefault();a.parentElement.classList.toggle('open');}
+    });
+});
+
+/* ─── SCROLL REVEAL ─── */
+const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
